@@ -77,7 +77,6 @@ json_ast_T* json_parser_parse_key_value_list(json_parser_T* json_parser)
 
     while (CURRENT_TOKEN()->type != TOKEN_RBRACE)
     {
-
         ast->key_value_list_size += 1;
         ast->key_value_list_value = realloc(ast->key_value_list_value, ast->key_value_list_size * sizeof(struct JSON_AST_STRUCT));
         ast->key_value_list_value[ast->key_value_list_size-1] = json_parser_parse_key_value(json_parser);
