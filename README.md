@@ -47,6 +47,17 @@ int main(int argc, char* argv[])
     json_ast_free(ast);
 }
 ```
+> Compile your project with the `-ljson` flag:
+```bash
+gcc -ljson main.c
+```
+
+## Installing
+> To install `libjson`, simply clown down the repo and run:
+```
+make && sudo make install
+```
+> Done! Now you can use it.
 
 ## Speed
 > The parser parses the [shards/boards.json](shards/boards.json) file in about
