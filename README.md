@@ -56,3 +56,20 @@ real	0m0.002s
 user	0m0.003s
 sys	0m0.000s
 ```
+> Parsing the same file in `Nodejs` takes this much time:
+```bash
+time node n.js 
+
+real	0m0.412s
+user	0m0.402s
+sys	0m0.012s
+```
+> Parsing the same file in `Python` takes this much time:
+```bash
+time python n.py 
+
+real	0m0.016s
+user	0m0.004s
+sys	0m0.012s
+```
+> Conclusion: __My parser wins!__.
