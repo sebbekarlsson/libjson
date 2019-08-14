@@ -1,3 +1,5 @@
+<div align='center'><img src='json-logo.png' width="400"/></div>
+
 # libjson
 > Super fast JSON implementation in C, parse JSON in C with the speed of light.
 
