@@ -35,11 +35,21 @@ char* read_file(const char* filename)
 
 int main(int argc, char* argv[])
 {
-    char* contents = read_file("shards/boards.json");
-    json_lexer_T* lexer = init_json_lexer(contents);
-    json_parser_T* parser = init_json_parser(lexer);
+    json_parser_T* parser = init_json_parser(init_json_lexer(read_file("shards/person.json")));
 
     json_ast_T* ast = json_parser_parse(parser);
 
+    for (int i = 0; i < ast->key_value_list_size; i++)
+    {
+        json_ast_T* key_value = ast->key_value_list_value[i];
+
+        if (strcmp(key_value->key_value_key, "name") == 0)
+        {
+            printf("The name is: `%s`\n", key_value->key_value_value->string_value);
+            break;
+        }
+    }
+
     json_parser_free(parser);
+    json_ast_free(ast);
 }

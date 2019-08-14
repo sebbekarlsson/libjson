@@ -29,4 +29,6 @@ typedef struct JSON_AST_STRUCT
 } json_ast_T;
 
 json_ast_T* init_json_ast(int type);
+
+void json_ast_free(json_ast_T* json_ast);
 #endif

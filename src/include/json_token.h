@@ -12,8 +12,7 @@ typedef struct JSON_TOKEN_STRUCT
         TOKEN_RBRACE,
         TOKEN_LBRACKET,
         TOKEN_RBRACKET,
-        TOKEN_COLON,
-        TOKEN_EOF
+        TOKEN_COLON
     } type;
 
     char* value;

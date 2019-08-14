@@ -45,12 +45,12 @@ void json_lexer_free(json_lexer_T* json_lexer)
 json_token_T* json_lexer_get_next_token(json_lexer_T* json_lexer)
 {
     while (json_lexer->c != '\0' && json_lexer->i < strlen(json_lexer->contents))
-    {
+    { 
         if (json_lexer->c == '\n' || json_lexer->c == ' ' || json_lexer->c == 13)
-            json_lexer_skip_whitespace(json_lexer);
+            json_lexer_skip_whitespace(json_lexer); 
 
         if (isdigit(json_lexer->c))
-            return json_lexer_advance_with_token(json_lexer, json_lexer_collect_number(json_lexer));
+            return json_lexer_collect_number(json_lexer);
 
         switch (json_lexer->c)
         {
@@ -66,11 +66,11 @@ json_token_T* json_lexer_get_next_token(json_lexer_T* json_lexer)
         if (json_lexer->c == 0)
             break;
 
-        printf("[json_lexer] Unexpected char `%c` (%d)\n", json_lexer->c, (int) json_lexer->c);
+        printf("[json_lexer] Unexpected `%c`.\n", json_lexer->c);
         exit(1);
     }
 
-    return init_json_token(TOKEN_EOF, "");
+    return (void*)0;
 }
 
 /**
