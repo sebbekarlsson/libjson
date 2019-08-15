@@ -49,7 +49,7 @@ json_token_T* json_lexer_get_next_token(json_lexer_T* json_lexer)
         if (json_lexer->c == '\n' || json_lexer->c == ' ' || json_lexer->c == 13)
             json_lexer_skip_whitespace(json_lexer); 
 
-        if (isdigit(json_lexer->c))
+        if (isdigit(json_lexer->c) || json_lexer->c == '-')
             return json_lexer_collect_number(json_lexer);
 
         switch (json_lexer->c)
@@ -150,6 +150,15 @@ json_token_T* json_lexer_collect_number(json_lexer_T* json_lexer)
     char* value = calloc(1, sizeof(char));
     value[0] = '\0';
     int type = TOKEN_INTEGER;
+
+    if (json_lexer->c == '-') // to support negative numbers
+    {
+        char* str = json_lexer_current_charstr(json_lexer);
+        value = realloc(value, (strlen(value) + strlen(str) + 1) * sizeof(char));
+        strcat(value, str);
+        free(str);
+        json_lexer_advance(json_lexer);
+    }
 
     while (isdigit(json_lexer->c))
     {
