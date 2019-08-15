@@ -86,3 +86,17 @@ user	0m0.004s
 sys	0m0.012s
 ```
 > Conclusion: __My parser wins!__.
+
+## Valgrind output
+> Here is the valgrind output after parsing [shards/boards.json](shards/boards.json):
+```
+==24912== HEAP SUMMARY:
+==24912==     in use at exit: 0 bytes in 0 blocks
+==24912==   total heap usage: 73,145 allocs, 73,145 frees, 118,651,826 bytes allocated
+==24912== 
+==24912== All heap blocks were freed -- no leaks are possible
+==24912== 
+==24912== For counts of detected and suppressed errors, rerun with: -v
+==24912== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+```
+> No memory leaks, no errors! All good.
