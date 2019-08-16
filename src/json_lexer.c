@@ -128,11 +128,15 @@ json_token_T* json_lexer_collect_string(json_lexer_T* json_lexer)
 
     while (json_lexer->c != '"')
     {
+        // support for escaped quotes
+        if (json_lexer->c == '\\' && json_lexer_peek(json_lexer) == '"')
+            json_lexer_advance(json_lexer);
+
         char* str = json_lexer_current_charstr(json_lexer);
         value = realloc(value, (strlen(value) + strlen(str) + 1) * sizeof(char));
         strcat(value, str);
         free(str);
-        json_lexer_advance(json_lexer);
+        json_lexer_advance(json_lexer); 
     }
 
     return init_json_token(TOKEN_STRING, value);
@@ -201,4 +205,16 @@ char* json_lexer_current_charstr(json_lexer_T* json_lexer)
     str[1] = '\0';
 
     return str;
+}
+
+/**
+ * Get the next char without advancing
+ *
+ * @param json_lexer_T* json_lexer
+ *
+ * @return char
+ */
+char json_lexer_peek(json_lexer_T* json_lexer)
+{
+    return json_lexer->contents[json_lexer->i < strlen(json_lexer->contents) ? json_lexer->i + 1 : strlen(json_lexer->contents)];
 }
