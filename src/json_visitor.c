@@ -23,6 +23,8 @@ json_ast_T* json_visitor_visit(json_ast_T* json_ast)
 
     printf("[json_visitor] Unhandled json_ast->type: `%d`\n", json_ast->type);
     exit(1);
+
+    return json_ast;
 }
 
 /**
@@ -37,6 +39,8 @@ json_ast_T* json_visitor_visit_key_value(json_ast_T* json_ast)
     char* key = json_ast->key_value_key;
     printf("\"%s\": ", json_ast->key_value_key);
     json_visitor_visit(json_ast->key_value_value);
+
+    return json_ast;
 }
 
 /**
@@ -59,6 +63,8 @@ json_ast_T* json_visitor_visit_key_value_list(json_ast_T* json_ast)
     }
 
     printf("}");
+
+    return json_ast;
 }
 
 /**
@@ -81,6 +87,8 @@ json_ast_T* json_visitor_visit_list(json_ast_T* json_ast)
     }
 
     printf("]");
+
+    return json_ast;
 }
 
 /**
@@ -93,6 +101,7 @@ json_ast_T* json_visitor_visit_list(json_ast_T* json_ast)
 json_ast_T* json_visitor_visit_string(json_ast_T* json_ast)
 {
     printf("\"%s\"", json_ast->string_value);
+    return json_ast;
 }
 
 /**
@@ -105,6 +114,7 @@ json_ast_T* json_visitor_visit_string(json_ast_T* json_ast)
 json_ast_T* json_visitor_visit_integer(json_ast_T* json_ast)
 {
     printf("%d", json_ast->integer_value);
+    return json_ast;
 }
 
 /**
@@ -117,4 +127,5 @@ json_ast_T* json_visitor_visit_integer(json_ast_T* json_ast)
 json_ast_T* json_visitor_visit_float(json_ast_T* json_ast)
 {
     printf("%12.6f", json_ast->float_value);
+    return json_ast;
 }

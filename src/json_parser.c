@@ -110,6 +110,8 @@ json_ast_T* json_parser_parse(json_parser_T* json_parser)
 
         printf("[json_parser] Unexpected TOKEN(%d, %s)\n", CURRENT_TOKEN()->type, CURRENT_TOKEN()->value);
     }
+
+    return (void*) 0;
 }
 
 /**
