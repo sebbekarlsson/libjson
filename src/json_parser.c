@@ -106,6 +106,7 @@ json_ast_T* json_parser_parse(json_parser_T* json_parser)
             case TOKEN_STRING: return json_parser_parse_string(json_parser); break;
             case TOKEN_INTEGER: return json_parser_parse_integer(json_parser); break;
             case TOKEN_FLOAT: return json_parser_parse_float(json_parser); break;
+            case TOKEN_COMMA: case TOKEN_RBRACE: case TOKEN_RBRACKET: case TOKEN_COLON: printf("%d\n", CURRENT_TOKEN()->type); break;
         }
 
         printf("[json_parser] Unexpected TOKEN(%d, %s)\n", CURRENT_TOKEN()->type, CURRENT_TOKEN()->value);

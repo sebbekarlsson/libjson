@@ -51,6 +51,7 @@ void json_ast_free(json_ast_T* json_ast)
             if (json_ast->key_value_value)
                 json_ast_free(json_ast->key_value_value);            
         } break;
+        case AST_FLOAT: case AST_INTEGER: /* silence */ break;
     }
 
     free(json_ast);
