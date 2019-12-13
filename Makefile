@@ -1,11 +1,11 @@
 exec = a.out
-sources = $(wildcard src/*.c)
+sources = $(filter-out src/main.c, $(wildcard src/*.c))
 objects = $(sources:.c=.o)
 flags = -g -fPIC
 
 
-$(exec): $(objects)
-	gcc $(objects) $(flags) -o $(exec)
+#$(exec): $(objects)
+#	gcc $(objects) $(flags) -o $(exec)
 
 libjson.a: $(objects)
 	ar rcs $@ $^
