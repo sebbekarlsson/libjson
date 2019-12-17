@@ -181,7 +181,7 @@ json_ast_T* json_parser_parse_key_value(json_parser_T* json_parser)
 /**
  * Parse a json string, example: `"john doe"`
  *
- * @parma json_parser_T* json_parser
+ * @param json_parser_T* json_parser
  *
  * @return json_ast_T*
  */
