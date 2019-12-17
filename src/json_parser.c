@@ -129,24 +129,27 @@ json_ast_T* json_parser_parse_key_value_list(json_parser_T* json_parser)
 
     json_parser_eat(json_parser, TOKEN_LBRACE);
 
-    ast->key_value_list_size += 1;
-    ast->key_value_list_value = realloc(ast->key_value_list_value, ast->key_value_list_size * sizeof(struct JSON_AST_STRUCT));
-    ast->key_value_list_value[ast->key_value_list_size-1] = json_parser_parse_key_value(json_parser);
-
-    if (CURRENT_TOKEN()->type == TOKEN_COMMA)
-        json_parser_eat(json_parser, TOKEN_COMMA);
-
-    while (CURRENT_TOKEN()->type == TOKEN_STRING || CURRENT_TOKEN()->type == TOKEN_INTEGER || CURRENT_TOKEN()->type == TOKEN_FLOAT)
+    if (CURRENT_TOKEN()->type != TOKEN_RBRACE)
     {
         ast->key_value_list_size += 1;
         ast->key_value_list_value = realloc(ast->key_value_list_value, ast->key_value_list_size * sizeof(struct JSON_AST_STRUCT));
         ast->key_value_list_value[ast->key_value_list_size-1] = json_parser_parse_key_value(json_parser);
-        
+
         if (CURRENT_TOKEN()->type == TOKEN_COMMA)
             json_parser_eat(json_parser, TOKEN_COMMA);
 
-        if (CURRENT_TOKEN()->type == TOKEN_RBRACE)
-            break;
+        while (CURRENT_TOKEN()->type == TOKEN_STRING || CURRENT_TOKEN()->type == TOKEN_INTEGER || CURRENT_TOKEN()->type == TOKEN_FLOAT)
+        {
+            ast->key_value_list_size += 1;
+            ast->key_value_list_value = realloc(ast->key_value_list_value, ast->key_value_list_size * sizeof(struct JSON_AST_STRUCT));
+            ast->key_value_list_value[ast->key_value_list_size-1] = json_parser_parse_key_value(json_parser);
+
+            if (CURRENT_TOKEN()->type == TOKEN_COMMA)
+                json_parser_eat(json_parser, TOKEN_COMMA);
+
+            if (CURRENT_TOKEN()->type == TOKEN_RBRACE)
+                break;
+        }
     }
 
     json_parser_eat(json_parser, TOKEN_RBRACE);
