@@ -54,12 +54,12 @@ json_token_T* json_lexer_get_next_token(json_lexer_T* json_lexer)
 
         switch (json_lexer->c)
         {
-            case '{': return json_lexer_advance_with_token(json_lexer, init_json_token(TOKEN_LBRACE, json_lexer_current_charstr(json_lexer))); break;
-            case '}': return json_lexer_advance_with_token(json_lexer, init_json_token(TOKEN_RBRACE, json_lexer_current_charstr(json_lexer))); break;
-            case '[': return json_lexer_advance_with_token(json_lexer, init_json_token(TOKEN_LBRACKET, json_lexer_current_charstr(json_lexer))); break;
-            case ']': return json_lexer_advance_with_token(json_lexer, init_json_token(TOKEN_RBRACKET, json_lexer_current_charstr(json_lexer))); break;
-            case ',': return json_lexer_advance_with_token(json_lexer, init_json_token(TOKEN_COMMA, json_lexer_current_charstr(json_lexer))); break;
-            case ':': return json_lexer_advance_with_token(json_lexer, init_json_token(TOKEN_COLON, json_lexer_current_charstr(json_lexer))); break;
+            case '{': return json_lexer_advance_with_token(json_lexer, init_json_token(JSON_TOKEN_LBRACE, json_lexer_current_charstr(json_lexer))); break;
+            case '}': return json_lexer_advance_with_token(json_lexer, init_json_token(JSON_TOKEN_RBRACE, json_lexer_current_charstr(json_lexer))); break;
+            case '[': return json_lexer_advance_with_token(json_lexer, init_json_token(JSON_TOKEN_LBRACKET, json_lexer_current_charstr(json_lexer))); break;
+            case ']': return json_lexer_advance_with_token(json_lexer, init_json_token(JSON_TOKEN_RBRACKET, json_lexer_current_charstr(json_lexer))); break;
+            case ',': return json_lexer_advance_with_token(json_lexer, init_json_token(JSON_TOKEN_COMMA, json_lexer_current_charstr(json_lexer))); break;
+            case ':': return json_lexer_advance_with_token(json_lexer, init_json_token(JSON_TOKEN_COLON, json_lexer_current_charstr(json_lexer))); break;
             case '"': return json_lexer_advance_with_token(json_lexer, json_lexer_collect_string(json_lexer)); break;
         }
 
@@ -139,7 +139,7 @@ json_token_T* json_lexer_collect_string(json_lexer_T* json_lexer)
         json_lexer_advance(json_lexer); 
     }
 
-    return init_json_token(TOKEN_STRING, value);
+    return init_json_token(JSON_TOKEN_STRING, value);
 }
 
 /**
@@ -153,7 +153,7 @@ json_token_T* json_lexer_collect_number(json_lexer_T* json_lexer)
 {
     char* value = calloc(1, sizeof(char));
     value[0] = '\0';
-    int type = TOKEN_INTEGER;
+    int type = JSON_TOKEN_INTEGER;
 
     if (json_lexer->c == '-') // to support negative numbers
     {
@@ -175,7 +175,7 @@ json_token_T* json_lexer_collect_number(json_lexer_T* json_lexer)
 
     if (json_lexer->c == '.')
     {
-        type = TOKEN_FLOAT;
+        type = JSON_TOKEN_FLOAT;
 
         json_lexer_advance(json_lexer);
 
