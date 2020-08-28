@@ -13,12 +13,12 @@ json_ast_T* json_visitor_visit(json_ast_T* json_ast)
 {
     switch (json_ast->type)
     {
-        case AST_KEY_VALUE: return json_visitor_visit_key_value(json_ast); break;
-        case AST_KEY_VALUE_LIST: return json_visitor_visit_key_value_list(json_ast); break;
-        case AST_LIST: return json_visitor_visit_list(json_ast); break;
-        case AST_STRING: return json_visitor_visit_string(json_ast); break;
-        case AST_INTEGER: return json_visitor_visit_integer(json_ast); break;
-        case AST_FLOAT: return json_visitor_visit_float(json_ast); break;
+        case JSON_AST_KEY_VALUE: return json_visitor_visit_key_value(json_ast); break;
+        case JSON_AST_KEY_VALUE_LIST: return json_visitor_visit_key_value_list(json_ast); break;
+        case JSON_AST_LIST: return json_visitor_visit_list(json_ast); break;
+        case JSON_AST_STRING: return json_visitor_visit_string(json_ast); break;
+        case JSON_AST_INTEGER: return json_visitor_visit_integer(json_ast); break;
+        case JSON_AST_FLOAT: return json_visitor_visit_float(json_ast); break;
     }
 
     printf("[json_visitor] Unhandled json_ast->type: `%d`\n", json_ast->type);
