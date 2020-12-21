@@ -12,7 +12,8 @@ typedef struct JSON_JSON_AST_STRUCT
         JSON_AST_STRING,
         JSON_AST_INTEGER,
         JSON_AST_FLOAT,
-        JSON_AST_LIST
+        JSON_AST_LIST,
+        JSON_AST_ID,
     } type;
     char* string_value;
     int integer_value;

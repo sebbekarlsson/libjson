@@ -28,6 +28,8 @@ json_ast_T* json_parser_parse_key_value(json_parser_T* json_parser);
 
 json_ast_T* json_parser_parse_string(json_parser_T* json_parser);
 
+json_ast_T* json_parser_parse_id(json_parser_T* json_parser);
+
 json_ast_T* json_parser_parse_integer(json_parser_T* json_parser);
 
 json_ast_T* json_parser_parse_float(json_parser_T* json_parser);

@@ -52,6 +52,9 @@ json_token_T* json_lexer_get_next_token(json_lexer_T* json_lexer)
         if (isdigit(json_lexer->c) || json_lexer->c == '-')
             return json_lexer_collect_number(json_lexer);
 
+        if (isalnum(json_lexer->c))
+            return json_lexer_collect_id(json_lexer);
+
         switch (json_lexer->c)
         {
             case '{': return json_lexer_advance_with_token(json_lexer, init_json_token(JSON_TOKEN_LBRACE, json_lexer_current_charstr(json_lexer))); break;
@@ -140,6 +143,23 @@ json_token_T* json_lexer_collect_string(json_lexer_T* json_lexer)
     }
 
     return init_json_token(JSON_TOKEN_STRING, value);
+}
+
+json_token_T* json_lexer_collect_id(json_lexer_T* json_lexer)
+{
+    char* value = calloc(1, sizeof(char));
+    value[0] = '\0';
+
+    while (isalnum(json_lexer->c))
+    {
+        char* str = json_lexer_current_charstr(json_lexer);
+        value = realloc(value, (strlen(value) + strlen(str) + 1) * sizeof(char));
+        strcat(value, str);
+        free(str);
+        json_lexer_advance(json_lexer); 
+    }
+
+    return init_json_token(JSON_TOKEN_ID, value);
 }
 
 /**

@@ -106,6 +106,7 @@ json_ast_T* json_parser_parse(json_parser_T* json_parser)
             case JSON_TOKEN_STRING: return json_parser_parse_string(json_parser); break;
             case JSON_TOKEN_INTEGER: return json_parser_parse_integer(json_parser); break;
             case JSON_TOKEN_FLOAT: return json_parser_parse_float(json_parser); break;
+            case JSON_TOKEN_ID: return json_parser_parse_id(json_parser); break;
             case JSON_TOKEN_COMMA: case JSON_TOKEN_RBRACE: case JSON_TOKEN_RBRACKET: case JSON_TOKEN_COLON: printf("%d\n", CURRENT_TOKEN()->type); break;
         }
 
@@ -192,6 +193,16 @@ json_ast_T* json_parser_parse_string(json_parser_T* json_parser)
     ast->string_value = calloc(strlen(CURRENT_TOKEN()->value) + 1, sizeof(char));
     strcpy(ast->string_value, CURRENT_TOKEN()->value);
     json_parser_eat(json_parser, JSON_TOKEN_STRING);
+
+    return ast;
+}
+
+json_ast_T* json_parser_parse_id(json_parser_T* json_parser)
+{
+    json_ast_T* ast = init_json_ast(JSON_AST_ID);
+    ast->string_value = calloc(strlen(CURRENT_TOKEN()->value) + 1, sizeof(char));
+    strcpy(ast->string_value, CURRENT_TOKEN()->value);
+    json_parser_eat(json_parser, JSON_TOKEN_ID);
 
     return ast;
 }

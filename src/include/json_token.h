@@ -12,6 +12,7 @@ typedef struct JSON_JSON_TOKEN_STRUCT
         JSON_TOKEN_RBRACE,
         JSON_TOKEN_LBRACKET,
         JSON_TOKEN_RBRACKET,
+        JSON_TOKEN_ID,
         JSON_TOKEN_COLON
     } type;
 

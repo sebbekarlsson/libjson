@@ -24,6 +24,8 @@ void json_lexer_skip_whitespace(json_lexer_T* json_lexer);
 
 json_token_T* json_lexer_collect_string(json_lexer_T* json_lexer);
 
+json_token_T* json_lexer_collect_id(json_lexer_T* json_lexer);
+
 json_token_T* json_lexer_collect_number(json_lexer_T* json_lexer);
 
 char* json_lexer_current_charstr(json_lexer_T* json_lexer);
