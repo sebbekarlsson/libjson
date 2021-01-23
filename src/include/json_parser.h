@@ -1,15 +1,14 @@
 #ifndef JSON_PARSER_H
 #define JSON_PARSER_H
-#include "json_lexer.h"
 #include "json_ast.h"
-
+#include "json_lexer.h"
 
 typedef struct JSON_PARSER_STRUCT
 {
-    json_lexer_T* lexer;
-    json_token_T* current_token;
-    json_token_T** stack;
-    size_t stack_size;
+  json_lexer_T* lexer;
+  json_token_T* current_token;
+  json_token_T** stack;
+  size_t stack_size;
 } json_parser_T;
 
 json_parser_T* init_json_parser(json_lexer_T* lexer);

@@ -2,7 +2,6 @@
 #define JSON_VISITOR_H
 #include "json_ast.h"
 
-
 json_ast_T* json_visitor_visit(json_ast_T* json_ast);
 
 json_ast_T* json_visitor_visit_key_value(json_ast_T* json_ast);

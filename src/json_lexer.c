@@ -1,9 +1,8 @@
 #include "include/json_lexer.h"
-#include <string.h>
-#include <stdlib.h>
 #include <ctype.h>
 #include <stdio.h>
-
+#include <stdlib.h>
+#include <string.h>
 
 /**
  * Create a new lexer
@@ -14,12 +13,12 @@
  */
 json_lexer_T* init_json_lexer(char* contents)
 {
-    json_lexer_T* json_lexer = calloc(1, sizeof(struct JSON_LEXER_STRUCT));
-    json_lexer->contents = contents;
-    json_lexer->i = 0;
-    json_lexer->c = json_lexer->contents[json_lexer->i];
+  json_lexer_T* json_lexer = calloc(1, sizeof(struct JSON_LEXER_STRUCT));
+  json_lexer->contents = contents;
+  json_lexer->i = 0;
+  json_lexer->c = json_lexer->contents[json_lexer->i];
 
-    return json_lexer;
+  return json_lexer;
 }
 
 /**
@@ -29,10 +28,10 @@ json_lexer_T* init_json_lexer(char* contents)
  */
 void json_lexer_free(json_lexer_T* json_lexer)
 {
-    if (json_lexer->contents)
-        free(json_lexer->contents);
+  if (json_lexer->contents)
+    free(json_lexer->contents);
 
-    free(json_lexer);
+  free(json_lexer);
 }
 
 /**
@@ -44,36 +43,55 @@ void json_lexer_free(json_lexer_T* json_lexer)
  */
 json_token_T* json_lexer_get_next_token(json_lexer_T* json_lexer)
 {
-    while (json_lexer->c != '\0' && json_lexer->i < strlen(json_lexer->contents))
-    { 
-        if (json_lexer->c == '\n' || json_lexer->c == ' ' || json_lexer->c == 13)
-            json_lexer_skip_whitespace(json_lexer); 
+  while (json_lexer->c != '\0' && json_lexer->i < strlen(json_lexer->contents)) {
+    while (json_lexer->c == '\n' || json_lexer->c == ' ' || json_lexer->c == 13 ||
+           json_lexer->c == 10 || json_lexer->c == '\r' || json_lexer->c == '\t')
+      json_lexer_skip_whitespace(json_lexer);
 
-        if (isdigit(json_lexer->c) || json_lexer->c == '-')
-            return json_lexer_collect_number(json_lexer);
+    if (isdigit(json_lexer->c) || json_lexer->c == '-')
+      return json_lexer_collect_number(json_lexer);
 
-        if (isalnum(json_lexer->c))
-            return json_lexer_collect_id(json_lexer);
+    if (isalnum(json_lexer->c))
+      return json_lexer_collect_id(json_lexer);
 
-        switch (json_lexer->c)
-        {
-            case '{': return json_lexer_advance_with_token(json_lexer, init_json_token(JSON_TOKEN_LBRACE, json_lexer_current_charstr(json_lexer))); break;
-            case '}': return json_lexer_advance_with_token(json_lexer, init_json_token(JSON_TOKEN_RBRACE, json_lexer_current_charstr(json_lexer))); break;
-            case '[': return json_lexer_advance_with_token(json_lexer, init_json_token(JSON_TOKEN_LBRACKET, json_lexer_current_charstr(json_lexer))); break;
-            case ']': return json_lexer_advance_with_token(json_lexer, init_json_token(JSON_TOKEN_RBRACKET, json_lexer_current_charstr(json_lexer))); break;
-            case ',': return json_lexer_advance_with_token(json_lexer, init_json_token(JSON_TOKEN_COMMA, json_lexer_current_charstr(json_lexer))); break;
-            case ':': return json_lexer_advance_with_token(json_lexer, init_json_token(JSON_TOKEN_COLON, json_lexer_current_charstr(json_lexer))); break;
-            case '"': return json_lexer_advance_with_token(json_lexer, json_lexer_collect_string(json_lexer)); break;
-        }
-
-        if (json_lexer->c == 0)
-            break;
-
-        printf("[json_lexer] Unexpected `%c`.\n", json_lexer->c);
-        exit(1);
+    switch (json_lexer->c) {
+      case '{':
+        return json_lexer_advance_with_token(
+          json_lexer, init_json_token(JSON_TOKEN_LBRACE, json_lexer_current_charstr(json_lexer)));
+        break;
+      case '}':
+        return json_lexer_advance_with_token(
+          json_lexer, init_json_token(JSON_TOKEN_RBRACE, json_lexer_current_charstr(json_lexer)));
+        break;
+      case '[':
+        return json_lexer_advance_with_token(
+          json_lexer, init_json_token(JSON_TOKEN_LBRACKET, json_lexer_current_charstr(json_lexer)));
+        break;
+      case ']':
+        return json_lexer_advance_with_token(
+          json_lexer, init_json_token(JSON_TOKEN_RBRACKET, json_lexer_current_charstr(json_lexer)));
+        break;
+      case ',':
+        return json_lexer_advance_with_token(
+          json_lexer, init_json_token(JSON_TOKEN_COMMA, json_lexer_current_charstr(json_lexer)));
+        break;
+      case ':':
+        return json_lexer_advance_with_token(
+          json_lexer, init_json_token(JSON_TOKEN_COLON, json_lexer_current_charstr(json_lexer)));
+        break;
+      case '"':
+        return json_lexer_advance_with_token(json_lexer, json_lexer_collect_string(json_lexer));
+        break;
     }
 
-    return (void*)0;
+    if (json_lexer->c == 0)
+      break;
+
+    printf("[json_lexer] Unexpected `%c`.\n", json_lexer->c);
+    exit(1);
+  }
+
+  return (void*)0;
 }
 
 /**
@@ -86,9 +104,9 @@ json_token_T* json_lexer_get_next_token(json_lexer_T* json_lexer)
  */
 json_token_T* json_lexer_advance_with_token(json_lexer_T* json_lexer, json_token_T* json_token)
 {
-    json_lexer_advance(json_lexer);
+  json_lexer_advance(json_lexer);
 
-    return json_token;
+  return json_token;
 }
 
 /**
@@ -98,11 +116,10 @@ json_token_T* json_lexer_advance_with_token(json_lexer_T* json_lexer, json_token
  */
 void json_lexer_advance(json_lexer_T* json_lexer)
 {
-    if (json_lexer->i < strlen(json_lexer->contents))
-    {
-        json_lexer->i += 1;
-        json_lexer->c = json_lexer->contents[json_lexer->i];
-    }
+  if (json_lexer->i < strlen(json_lexer->contents)) {
+    json_lexer->i += 1;
+    json_lexer->c = json_lexer->contents[json_lexer->i];
+  }
 }
 
 /**
@@ -112,8 +129,9 @@ void json_lexer_advance(json_lexer_T* json_lexer)
  */
 void json_lexer_skip_whitespace(json_lexer_T* json_lexer)
 {
-    while (json_lexer->c == '\n' || json_lexer->c == ' ' || json_lexer->c == 13)
-        json_lexer_advance(json_lexer);
+  while (json_lexer->c == '\n' || json_lexer->c == ' ' || json_lexer->c == 13 ||
+         json_lexer->c == '\r' || json_lexer->c == '\t' || json_lexer->c == 10)
+    json_lexer_advance(json_lexer);
 }
 
 /**
@@ -125,41 +143,39 @@ void json_lexer_skip_whitespace(json_lexer_T* json_lexer)
  */
 json_token_T* json_lexer_collect_string(json_lexer_T* json_lexer)
 {
-    json_lexer_advance(json_lexer); // skip first "
-    char* value = calloc(1, sizeof(char));
-    value[0] = '\0';
+  json_lexer_advance(json_lexer); // skip first "
+  char* value = calloc(1, sizeof(char));
+  value[0] = '\0';
 
-    while (json_lexer->c != '"')
-    {
-        // support for escaped quotes
-        if (json_lexer->c == '\\' && json_lexer_peek(json_lexer) == '"')
-            json_lexer_advance(json_lexer);
+  while (json_lexer->c != '"') {
+    // support for escaped quotes
+    if (json_lexer->c == '\\' && json_lexer_peek(json_lexer) == '"')
+      json_lexer_advance(json_lexer);
 
-        char* str = json_lexer_current_charstr(json_lexer);
-        value = realloc(value, (strlen(value) + strlen(str) + 1) * sizeof(char));
-        strcat(value, str);
-        free(str);
-        json_lexer_advance(json_lexer); 
-    }
+    char* str = json_lexer_current_charstr(json_lexer);
+    value = realloc(value, (strlen(value) + strlen(str) + 1) * sizeof(char));
+    strcat(value, str);
+    free(str);
+    json_lexer_advance(json_lexer);
+  }
 
-    return init_json_token(JSON_TOKEN_STRING, value);
+  return init_json_token(JSON_TOKEN_STRING, value);
 }
 
 json_token_T* json_lexer_collect_id(json_lexer_T* json_lexer)
 {
-    char* value = calloc(1, sizeof(char));
-    value[0] = '\0';
+  char* value = calloc(1, sizeof(char));
+  value[0] = '\0';
 
-    while (isalnum(json_lexer->c))
-    {
-        char* str = json_lexer_current_charstr(json_lexer);
-        value = realloc(value, (strlen(value) + strlen(str) + 1) * sizeof(char));
-        strcat(value, str);
-        free(str);
-        json_lexer_advance(json_lexer); 
-    }
+  while (isalnum(json_lexer->c)) {
+    char* str = json_lexer_current_charstr(json_lexer);
+    value = realloc(value, (strlen(value) + strlen(str) + 1) * sizeof(char));
+    strcat(value, str);
+    free(str);
+    json_lexer_advance(json_lexer);
+  }
 
-    return init_json_token(JSON_TOKEN_ID, value);
+  return init_json_token(JSON_TOKEN_ID, value);
 }
 
 /**
@@ -171,44 +187,41 @@ json_token_T* json_lexer_collect_id(json_lexer_T* json_lexer)
  */
 json_token_T* json_lexer_collect_number(json_lexer_T* json_lexer)
 {
-    char* value = calloc(1, sizeof(char));
-    value[0] = '\0';
-    int type = JSON_TOKEN_INTEGER;
+  char* value = calloc(1, sizeof(char));
+  value[0] = '\0';
+  int type = JSON_TOKEN_INTEGER;
 
-    if (json_lexer->c == '-') // to support negative numbers
-    {
-        char* str = json_lexer_current_charstr(json_lexer);
-        value = realloc(value, (strlen(value) + strlen(str) + 1) * sizeof(char));
-        strcat(value, str);
-        free(str);
-        json_lexer_advance(json_lexer);
+  if (json_lexer->c == '-') // to support negative numbers
+  {
+    char* str = json_lexer_current_charstr(json_lexer);
+    value = realloc(value, (strlen(value) + strlen(str) + 1) * sizeof(char));
+    strcat(value, str);
+    free(str);
+    json_lexer_advance(json_lexer);
+  }
+
+  while (isdigit(json_lexer->c)) {
+    char* str = json_lexer_current_charstr(json_lexer);
+    value = realloc(value, (strlen(value) + strlen(str) + 1) * sizeof(char));
+    strcat(value, str);
+    free(str);
+    json_lexer_advance(json_lexer);
+  }
+
+  if (json_lexer->c == '.') {
+    type = JSON_TOKEN_FLOAT;
+
+    json_lexer_advance(json_lexer);
+
+    while (isdigit(json_lexer->c)) {
+      char* str = json_lexer_current_charstr(json_lexer);
+      strcat(value, str);
+      free(str);
+      json_lexer_advance(json_lexer);
     }
+  }
 
-    while (isdigit(json_lexer->c))
-    {
-        char* str = json_lexer_current_charstr(json_lexer);
-        value = realloc(value, (strlen(value) + strlen(str) + 1) * sizeof(char));
-        strcat(value, str);
-        free(str);
-        json_lexer_advance(json_lexer);
-    }
-
-    if (json_lexer->c == '.')
-    {
-        type = JSON_TOKEN_FLOAT;
-
-        json_lexer_advance(json_lexer);
-
-        while (isdigit(json_lexer->c))
-        {
-            char* str = json_lexer_current_charstr(json_lexer);
-            strcat(value, str);
-            free(str);
-            json_lexer_advance(json_lexer);
-        }
-    }
-
-    return init_json_token(type, value);
+  return init_json_token(type, value);
 }
 
 /**
@@ -220,11 +233,11 @@ json_token_T* json_lexer_collect_number(json_lexer_T* json_lexer)
  */
 char* json_lexer_current_charstr(json_lexer_T* json_lexer)
 {
-    char* str = calloc(2, sizeof(char));
-    str[0] = json_lexer->c;
-    str[1] = '\0';
+  char* str = calloc(2, sizeof(char));
+  str[0] = json_lexer->c;
+  str[1] = '\0';
 
-    return str;
+  return str;
 }
 
 /**
@@ -236,5 +249,7 @@ char* json_lexer_current_charstr(json_lexer_T* json_lexer)
  */
 char json_lexer_peek(json_lexer_T* json_lexer)
 {
-    return json_lexer->contents[json_lexer->i < strlen(json_lexer->contents) ? json_lexer->i + 1 : strlen(json_lexer->contents)];
+  return json_lexer
+    ->contents[json_lexer->i < strlen(json_lexer->contents) ? json_lexer->i + 1
+                                                            : strlen(json_lexer->contents)];
 }
