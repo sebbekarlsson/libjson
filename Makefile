@@ -2,6 +2,7 @@ exec = a.out
 sources = $(filter-out src/main.c, $(wildcard src/*.c))
 objects = $(sources:.c=.o)
 flags = -g -fPIC
+LPATH = $(HOME)/.local
 
 
 #$(exec): $(objects)
@@ -16,10 +17,10 @@ libjson.a: $(objects)
 install:
 	make
 	make libjson.a
-	mkdir -p /usr/local/include/json
-	cp -r ./src/include/* /usr/local/include/json/.
-	cp ./libjson.a /usr/local/lib/.
-	cp ./json.out /usr/local/bin/json
+	mkdir -p $(LPATH)/include/json
+	cp -r ./src/include/* $(LPATH)/include/json/.
+	cp ./libjson.a $(LPATH)/lib/.
+	cp ./json.out $(LPATH)/bin/json
 
 clean:
 	-rm *.out
