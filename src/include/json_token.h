@@ -1,9 +1,7 @@
 #ifndef JSON_JSON_TOKEN_H
 #define JSON_JSON_TOKEN_H
-typedef struct JSON_JSON_TOKEN_STRUCT
-{
-  enum
-  {
+typedef struct JSON_JSON_TOKEN_STRUCT {
+  enum {
     JSON_TOKEN_STRING,
     JSON_TOKEN_INTEGER,
     JSON_TOKEN_FLOAT,
@@ -16,10 +14,10 @@ typedef struct JSON_JSON_TOKEN_STRUCT
     JSON_TOKEN_COLON
   } type;
 
-  char* value;
+  char *value;
 } json_token_T;
 
-json_token_T* init_json_token(int type, char* value);
+json_token_T *init_json_token(int type, char *value);
 
-void json_token_free(json_token_T* json_token);
+void json_token_free(json_token_T *json_token);
 #endif
