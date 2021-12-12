@@ -62,6 +62,6 @@ if (NOT TARGET hashmap_static)
 endif()
 
 
-target_link_libraries(json PRIVATE hashmap_static)
-target_link_libraries(json_static PRIVATE hashmap_static)
-target_link_libraries(json_e PRIVATE hashmap_static)
+target_link_libraries(json PUBLIC hashmap_static)
+target_link_libraries(json_static PUBLIC hashmap_static)
+target_link_libraries(json_e PUBLIC hashmap_static)
