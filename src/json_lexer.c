@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/param.h>
 
 /**
  * Create a new lexer
@@ -16,6 +17,7 @@ json_lexer_T *init_json_lexer(char *contents) {
   json_lexer->contents = contents;
   json_lexer->i = 0;
   json_lexer->c = json_lexer->contents[json_lexer->i];
+  json_lexer->length = strlen(json_lexer->contents);
 
   return json_lexer;
 }
@@ -41,7 +43,7 @@ void json_lexer_free(json_lexer_T *json_lexer) {
  */
 json_token_T *json_lexer_get_next_token(json_lexer_T *json_lexer) {
   while (json_lexer->c != '\0' &&
-         json_lexer->i < strlen(json_lexer->contents)) {
+         json_lexer->i < json_lexer->length) {
     while (json_lexer->c == '\n' || json_lexer->c == ' ' ||
            json_lexer->c == 13 || json_lexer->c == 10 ||
            json_lexer->c == '\r' || json_lexer->c == '\t')
@@ -121,9 +123,16 @@ json_token_T *json_lexer_advance_with_token(json_lexer_T *json_lexer,
  * @param json_lexer_T* json_lexer
  */
 void json_lexer_advance(json_lexer_T *json_lexer) {
-  if (json_lexer->i < strlen(json_lexer->contents)) {
+  if (json_lexer->i < json_lexer->length) {
     json_lexer->i += 1;
     json_lexer->c = json_lexer->contents[json_lexer->i];
+
+    if (json_lexer->c == '\n' || json_lexer->c == '\r') {
+      json_lexer->row++;
+      json_lexer->col = 0;
+    } else {
+      json_lexer->col++;
+    }
   }
 }
 
@@ -248,7 +257,5 @@ char *json_lexer_current_charstr(json_lexer_T *json_lexer) {
  * @return char
  */
 char json_lexer_peek(json_lexer_T *json_lexer) {
-  return json_lexer->contents[json_lexer->i < strlen(json_lexer->contents)
-                                  ? json_lexer->i + 1
-                                  : strlen(json_lexer->contents)];
+  return json_lexer->contents[MIN(json_lexer->length-1, json_lexer->i + 1)];
 }

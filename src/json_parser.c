@@ -50,9 +50,9 @@ void json_parser_eat(json_parser_T *json_parser, int type) {
 
   if (json_parser->current_token->type != type) {
     printf("[json_parser] Unexpected TOKEN(%d, %s)\nWas expecting: "
-           "%d.\n(lexer->i == %d)\n",
+           "%d.\n(%d:%d)\n",
            json_parser->current_token->type, json_parser->current_token->value,
-           type, json_parser->lexer->i);
+           type, json_parser->lexer->row, json_parser->lexer->col);
     exit(1);
   }
 

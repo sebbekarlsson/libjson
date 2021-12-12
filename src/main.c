@@ -40,6 +40,9 @@ int main(int argc, char *argv[]) {
 
   json_ast_T *ast = json_parser_parse(parser);
 
+  return 0;
+
+  /*
   JSONIterator iterator = json_iterate(ast);
 
   while (iterator.current) {
@@ -50,5 +53,5 @@ int main(int argc, char *argv[]) {
   //json_visitor_visit(ast);
 
   json_parser_free(parser);
-  json_ast_free(ast);
+  json_ast_free(ast);*/
 }

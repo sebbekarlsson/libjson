@@ -1,11 +1,15 @@
 #ifndef JSON_LEXER_H
 #define JSON_LEXER_H
 #include "json_token.h"
+#include <stdint.h>
 
 typedef struct JSON_LEXER_STRUCT {
   char *contents;
-  int i;
+  uint32_t i;
   char c;
+  uint32_t length;
+  uint32_t row;
+  uint32_t col;
 } json_lexer_T;
 
 json_lexer_T *init_json_lexer(char *contents);
