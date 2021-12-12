@@ -16,6 +16,9 @@ json_ast_T *init_json_ast(int type) {
   json_ast->key_value_list_value = (void *)0;
   json_ast->key_value_list_size = 0;
 
+  if (type == JSON_AST_KEY_VALUE_LIST)
+    json_ast->map = NEW_MAP();
+
   return json_ast;
 }
 
@@ -35,7 +38,8 @@ void json_ast_free(json_ast_T *json_ast) {
 
     free(json_ast->list_value);
   } break;
-  case JSON_AST_KEY_VALUE_LIST: {
+    case JSON_AST_KEY_VALUE_LIST: {
+      map_free(json_ast->map);
     for (int i = 0; i < json_ast->key_value_list_size; i++) {
       json_ast_T *kv = json_ast->key_value_list_value[i];
       json_ast_free(kv);
@@ -51,6 +55,7 @@ void json_ast_free(json_ast_T *json_ast) {
   case JSON_AST_FLOAT:
   case JSON_AST_INTEGER: /* silence */
     break;
+    default: { /* silence */ }; break;
   }
 
   free(json_ast);

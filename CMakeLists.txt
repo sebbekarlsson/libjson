@@ -48,3 +48,20 @@ target_include_directories(
       $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
       ${CMAKE_CURRENT_BINARY_DIR}/include
       ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+
+include(FetchContent)
+
+FetchContent_Declare(
+  hashmap_static
+  GIT_REPOSITORY https://github.com/sebbekarlsson/hashmap.git
+  )
+
+if (NOT TARGET hashmap_static)
+  FetchContent_MakeAvailable(hashmap_static)
+endif()
+
+
+target_link_libraries(json PRIVATE hashmap_static)
+target_link_libraries(json_static PRIVATE hashmap_static)
+target_link_libraries(json_e PRIVATE hashmap_static)

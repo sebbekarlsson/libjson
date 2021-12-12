@@ -40,7 +40,14 @@ int main(int argc, char *argv[]) {
 
   json_ast_T *ast = json_parser_parse(parser);
 
-  json_visitor_visit(ast);
+  JSONIterator iterator = json_iterate(ast);
+
+  while (iterator.current) {
+    char* str = json_string(iterator.current);
+    printf("%s\n", str);
+    json_iterator_next(&iterator);
+  }
+  //json_visitor_visit(ast);
 
   json_parser_free(parser);
   json_ast_free(ast);

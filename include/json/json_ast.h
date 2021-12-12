@@ -1,6 +1,8 @@
 #ifndef JSON_JSON_AST_H
 #define JSON_JSON_AST_H
 #include <stdlib.h>
+#include <stdint.h>
+#include <hashmap/map.h>
 
 typedef struct JSON_JSON_AST_STRUCT {
   enum {
@@ -17,13 +19,15 @@ typedef struct JSON_JSON_AST_STRUCT {
   float float_value;
 
   struct JSON_JSON_AST_STRUCT **list_value;
-  size_t list_size;
+  uint32_t list_size;
 
   char *key_value_key;
   struct JSON_JSON_AST_STRUCT *key_value_value;
 
   struct JSON_JSON_AST_STRUCT **key_value_list_value;
   size_t key_value_list_size;
+
+  map_T* map;
 } json_ast_T;
 
 json_ast_T *init_json_ast(int type);
