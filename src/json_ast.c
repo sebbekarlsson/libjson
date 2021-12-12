@@ -1,4 +1,4 @@
-#include "include/json_ast.h"
+#include <json/json_ast.h>
 
 /**
  * Create a new JSON AST Node.

@@ -1,4 +1,4 @@
-#include "include/json_lexer.h"
+#include <json/json_lexer.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,7 +1,7 @@
-#include "include/json_parser.h"
-#include "include/json_visitor.h"
+#include <json/json.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <string.h>
 
 char *read_file(const char *filename) {
