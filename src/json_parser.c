@@ -267,6 +267,11 @@ json_ast_T *json_parser_parse_list(json_parser_T *json_parser) {
 
   json_parser_eat(json_parser, JSON_TOKEN_LBRACKET);
 
+  if (json_parser->current_token->type == JSON_TOKEN_RBRACKET) {
+    json_parser_eat(json_parser, JSON_TOKEN_RBRACKET);
+    return ast;
+  }
+
   ast->list_size += 1;
   ast->list_value = realloc(
       ast->list_value, ast->list_size * sizeof(struct JSON_JSON_AST_STRUCT));
